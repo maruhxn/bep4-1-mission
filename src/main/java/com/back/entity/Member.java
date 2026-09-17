@@ -3,14 +3,17 @@ package com.back.entity;
 import com.back.shared.BaseIdAndTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseIdAndTime {
     @Column(unique = true)
     private String username;
+
     private String password;
+
     private String nickname;
 
     public Member(String username, String password, String nickname) {
