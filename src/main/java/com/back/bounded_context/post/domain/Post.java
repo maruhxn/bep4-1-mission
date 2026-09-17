@@ -1,6 +1,6 @@
-package com.back.bounded_context.post.entity;
+package com.back.bounded_context.post.domain;
 
-import com.back.bounded_context.member.entity.Member;
+import com.back.bounded_context.member.domain.Member;
 import com.back.global.jpa.BaseIdAndTime;
 import com.back.global.dto.PostCommentDto;
 import com.back.global.event.PostCommentCreatedEvent;

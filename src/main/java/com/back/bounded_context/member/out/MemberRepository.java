@@ -1,6 +1,6 @@
-package com.back.bounded_context.member.repository;
+package com.back.bounded_context.member.out;
 
-import com.back.bounded_context.member.entity.Member;
+import com.back.bounded_context.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

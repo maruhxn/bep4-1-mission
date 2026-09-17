@@ -1,6 +1,6 @@
 package com.back.global.dto;
 
-import com.back.bounded_context.post.entity.Post;
+import com.back.bounded_context.post.domain.Post;
 
 import java.time.LocalDateTime;
 
