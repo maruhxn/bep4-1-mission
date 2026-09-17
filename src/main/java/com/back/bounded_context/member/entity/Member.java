@@ -1,11 +1,13 @@
 package com.back.bounded_context.member.entity;
 
-import com.back.global.shared.BaseIdAndTime;
+import com.back.global.jpa.BaseIdAndTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseIdAndTime {

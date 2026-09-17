@@ -1,9 +1,12 @@
 package com.back.bounded_context.post.entity;
 
 import com.back.bounded_context.member.entity.Member;
-import com.back.global.shared.BaseIdAndTime;
+import com.back.global.jpa.BaseIdAndTime;
+import com.back.global.dto.PostCommentDto;
+import com.back.global.event.PostCommentCreatedEvent;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.List;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdAndTime {
@@ -37,7 +41,8 @@ public class Post extends BaseIdAndTime {
 
         comments.add(postComment);
 
-        author.increaseActivityScore(1); // 댓글 작성 시, 활동 점수 +1
+        // 댓글 작성 시, 활동 점수 +1
+        publishEvent(new PostCommentCreatedEvent(new PostCommentDto(postComment)));
 
         return postComment;
     }

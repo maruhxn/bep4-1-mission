@@ -1,8 +1,8 @@
 package com.back.bounded_context.member.service;
 
 import com.back.bounded_context.member.entity.Member;
-import com.back.global.exception.DomainException;
 import com.back.bounded_context.member.repository.MemberRepository;
+import com.back.global.exception.DomainException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +23,10 @@ public class MemberService {
         });
 
         return memberRepository.save(new Member(username, password, nickname));
+    }
+
+    public Optional<Member> findById(int id) {
+        return memberRepository.findById(id);
     }
 
     public Optional<Member> findByUsername(String username) {

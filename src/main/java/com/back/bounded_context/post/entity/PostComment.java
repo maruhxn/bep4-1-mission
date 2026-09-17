@@ -1,15 +1,17 @@
 package com.back.bounded_context.post.entity;
 
 import com.back.bounded_context.member.entity.Member;
-import com.back.global.shared.BaseIdAndTime;
+import com.back.global.jpa.BaseIdAndTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import static jakarta.persistence.FetchType.LAZY;
 
+@Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostComment extends BaseIdAndTime {
