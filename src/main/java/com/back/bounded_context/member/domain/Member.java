@@ -3,11 +3,13 @@ package com.back.bounded_context.member.domain;
 import com.back.global.jpa.BaseIdAndTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Table(name = "MEMBER_MEMBER")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseIdAndTime {

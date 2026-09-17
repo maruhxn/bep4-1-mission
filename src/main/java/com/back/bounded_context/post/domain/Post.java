@@ -1,9 +1,9 @@
 package com.back.bounded_context.post.domain;
 
 import com.back.bounded_context.member.domain.Member;
-import com.back.global.jpa.BaseIdAndTime;
 import com.back.global.dto.PostCommentDto;
 import com.back.global.event.PostCommentCreatedEvent;
+import com.back.global.jpa.BaseIdAndTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,6 +15,7 @@ import java.util.List;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
+@Table(name = "POST_POST")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdAndTime {
