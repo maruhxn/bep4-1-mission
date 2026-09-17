@@ -1,8 +1,8 @@
-package com.back.service;
+package com.back.bounded_context.post.service;
 
-import com.back.entity.Member;
-import com.back.entity.Post;
-import com.back.repository.PostRepository;
+import com.back.bounded_context.member.entity.Member;
+import com.back.bounded_context.post.entity.Post;
+import com.back.bounded_context.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

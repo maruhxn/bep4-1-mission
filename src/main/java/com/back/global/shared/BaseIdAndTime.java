@@ -1,4 +1,4 @@
-package com.back.shared;
+package com.back.global.shared;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;

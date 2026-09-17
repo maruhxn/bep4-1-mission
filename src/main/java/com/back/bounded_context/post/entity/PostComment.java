@@ -1,6 +1,7 @@
-package com.back.entity;
+package com.back.bounded_context.post.entity;
 
-import com.back.shared.BaseIdAndTime;
+import com.back.bounded_context.member.entity.Member;
+import com.back.global.shared.BaseIdAndTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
