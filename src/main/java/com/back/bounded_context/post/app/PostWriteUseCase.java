@@ -3,23 +3,17 @@ package com.back.bounded_context.post.app;
 import com.back.bounded_context.member.domain.Member;
 import com.back.bounded_context.post.domain.Post;
 import com.back.bounded_context.post.out.PostRepository;
-import com.back.global.event.EventPublisher;
 import com.back.global.dto.PostDto;
+import com.back.global.event.EventPublisher;
 import com.back.global.event.PostCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
-public class PostService {
+public class PostWriteUseCase {
     private final PostRepository postRepository;
     private final EventPublisher eventPublisher;
-
-    public long count() {
-        return postRepository.count();
-    }
 
     public Post write(Member author, String title, String content) {
         Post post = new Post(author, title, content);
@@ -28,9 +22,5 @@ public class PostService {
         eventPublisher.publish(new PostCreatedEvent(new PostDto(post)));
 
         return postRepository.save(post);
-    }
-
-    public Optional<Post> findById(int id) {
-        return postRepository.findById(id);
     }
 }
