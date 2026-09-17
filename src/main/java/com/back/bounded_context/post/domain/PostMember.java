@@ -1,6 +1,6 @@
 package com.back.bounded_context.post.domain;
 
-import com.back.global.jpa.BaseIdAndTime;
+import com.back.global.jpa.BaseIdAndTimeManual;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "POST_MEMBER")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostMember extends BaseIdAndTime {
+public class PostMember extends BaseIdAndTimeManual {
 
     @Column(unique = true)
     private String username;
