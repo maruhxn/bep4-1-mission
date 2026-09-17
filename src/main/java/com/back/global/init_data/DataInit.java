@@ -1,9 +1,9 @@
-package com.back.global.initData;
+package com.back.global.init_data;
 
-import com.back.bounded_context.member.domain.Member;
-import com.back.bounded_context.post.domain.Post;
 import com.back.bounded_context.member.app.MemberFacade;
+import com.back.bounded_context.member.domain.Member;
 import com.back.bounded_context.post.app.PostFacade;
+import com.back.bounded_context.post.domain.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
@@ -53,12 +53,12 @@ public class DataInit {
         Member user2Member = memberFacade.findByUsername("user2").get();
         Member user3Member = memberFacade.findByUsername("user3").get();
 
-        Post post1 = postFacade.write(user1Member, "제목1", "내용1");
-        Post post2 = postFacade.write(user1Member, "제목2", "내용2");
-        Post post3 = postFacade.write(user1Member, "제목3", "내용3");
-        Post post4 = postFacade.write(user2Member, "제목4", "내용4");
-        Post post5 = postFacade.write(user2Member, "제목5", "내용5");
-        Post post6 = postFacade.write(user3Member, "제목6", "내용6");
+        Post post1 = postFacade.write(user1Member, "제목1", "내용1").data();
+        Post post2 = postFacade.write(user1Member, "제목2", "내용2").data();
+        Post post3 = postFacade.write(user1Member, "제목3", "내용3").data();
+        Post post4 = postFacade.write(user2Member, "제목4", "내용4").data();
+        Post post5 = postFacade.write(user2Member, "제목5", "내용5").data();
+        Post post6 = postFacade.write(user3Member, "제목6", "내용6").data();
     }
 
     @Transactional
