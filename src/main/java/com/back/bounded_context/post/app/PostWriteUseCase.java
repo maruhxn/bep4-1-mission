@@ -1,5 +1,6 @@
 package com.back.bounded_context.post.app;
 
+import com.back.bounded_context.member.app.MemberFacade;
 import com.back.bounded_context.member.domain.Member;
 import com.back.bounded_context.post.domain.Post;
 import com.back.bounded_context.post.out.PostRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class PostWriteUseCase {
     private final PostRepository postRepository;
     private final EventPublisher eventPublisher;
+    private final MemberFacade memberFacade;
 
     public RsData<Post> write(Member author, String title, String content) {
         Post post = postRepository.save(new Post(author, title, content));
@@ -22,6 +24,11 @@ public class PostWriteUseCase {
         // 게시글 작성 시, 활동 점수 +3
         eventPublisher.publish(new PostCreatedEvent(new PostDto(post)));
 
-        return new RsData<>("201-1", String.format("%d번 글이 생성되었습니다.",  post.getId()), post);
+        String randomSecureTip = memberFacade.getRandomSecureTip();
+
+        return new RsData<>(
+                "201-1",
+                "%d번 글이 생성되었습니다. 보안팁: %s".formatted(post.getId(), randomSecureTip),
+                post);
     }
 }
