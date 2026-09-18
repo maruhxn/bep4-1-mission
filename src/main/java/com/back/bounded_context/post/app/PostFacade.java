@@ -41,6 +41,7 @@ public class PostFacade {
                 member.username(),
                 "",
                 member.nickname(),
+                member.activityScore(),
                 member.createDate(),
                 member.modifyDate()
         );

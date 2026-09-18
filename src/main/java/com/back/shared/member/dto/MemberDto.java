@@ -4,14 +4,22 @@ import com.back.bounded_context.member.domain.Member;
 
 import java.time.LocalDateTime;
 
-public record MemberDto(int id, LocalDateTime createDate, LocalDateTime modifyDate, String username, String nickname) {
+public record MemberDto(
+        int id,
+        LocalDateTime createDate,
+        LocalDateTime modifyDate,
+        String username,
+        String nickname,
+        int activityScore
+) {
     public MemberDto(Member member) {
         this(
             member.getId(),
             member.getCreateDate(),
             member.getModifyDate(),
             member.getUsername(),
-            member.getNickname()
+            member.getNickname(),
+            member.getActivityScore()
         );
     }
 }
