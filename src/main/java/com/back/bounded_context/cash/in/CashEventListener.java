@@ -18,7 +18,8 @@ public class CashEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handle(MemberJoinedEvent event) {
-        cashFacade.syncMember(event.member());
+        var holder = cashFacade.syncMember(event.member());
+        cashFacade.createWallet(holder);
     }
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
