@@ -1,8 +1,6 @@
 package com.back.bounded_context.member.app;
 
 import com.back.bounded_context.member.domain.Member;
-import com.back.bounded_context.member.domain.MemberPolicy;
-import com.back.bounded_context.member.out.MemberRepository;
 import com.back.global.dto.RsData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,14 +11,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class MemberFacade {
-    private final MemberRepository memberRepository;
     private final MemberJoinUseCase memberJoinUseCase;
-    private final MemberPolicy memberPolicy;
+    private final MemberGetRandomSecureTipUseCase memberGetRandomSecureTipUseCase;
+    private final MemberSupport memberSupport;
 
-    @Transactional(readOnly = true)
-    public long count() {
-        return memberRepository.count();
-    }
 
     @Transactional
     public RsData<Member> join(String username, String password, String nickname) {
@@ -28,16 +22,21 @@ public class MemberFacade {
     }
 
     @Transactional(readOnly = true)
+    public long count() {
+        return memberSupport.count();
+    }
+
+    @Transactional(readOnly = true)
     public Optional<Member> findById(int id) {
-        return memberRepository.findById(id);
+        return memberSupport.findById(id);
     }
 
     @Transactional(readOnly = true)
     public Optional<Member> findByUsername(String username) {
-        return memberRepository.findByUsername(username);
+        return memberSupport.findByUsername(username);
     }
 
     public String getRandomSecureTip() {
-        return "비밀번호의 유효기간은 %d일 입니다.".formatted(memberPolicy.getNeedToChangePasswordDays());
+        return memberGetRandomSecureTipUseCase.getRandomSecureTip();
     }
 }
