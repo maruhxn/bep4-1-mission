@@ -2,8 +2,8 @@ package com.back.bounded_context.member.in;
 
 import com.back.bounded_context.member.domain.Member;
 import com.back.bounded_context.member.app.MemberFacade;
-import com.back.global.event.PostCommentCreatedEvent;
-import com.back.global.event.PostCreatedEvent;
+import com.back.shared.post.event.PostCommentCreatedEvent;
+import com.back.shared.post.event.PostCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;

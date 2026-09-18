@@ -1,6 +1,6 @@
 package com.back.global.config;
 
-import com.back.global.event.EventPublisher;
+import com.back.global.event_publisher.EventPublisher;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

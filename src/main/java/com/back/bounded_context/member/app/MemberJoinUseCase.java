@@ -3,7 +3,7 @@ package com.back.bounded_context.member.app;
 import com.back.bounded_context.member.domain.Member;
 import com.back.bounded_context.member.out.MemberRepository;
 import com.back.global.dto.RsData;
-import com.back.global.event.EventPublisher;
+import com.back.global.event_publisher.EventPublisher;
 import com.back.global.exception.DomainException;
 import com.back.shared.member.dto.MemberDto;
 import com.back.shared.member.event.MemberJoinedEvent;

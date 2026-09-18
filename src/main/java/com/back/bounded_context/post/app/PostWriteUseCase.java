@@ -1,12 +1,12 @@
 package com.back.bounded_context.post.app;
 
-import com.back.bounded_context.member.domain.Member;
 import com.back.bounded_context.post.domain.Post;
+import com.back.bounded_context.post.domain.PostMember;
 import com.back.bounded_context.post.out.PostRepository;
-import com.back.global.dto.PostDto;
+import com.back.shared.post.dto.PostDto;
 import com.back.global.dto.RsData;
-import com.back.global.event.EventPublisher;
-import com.back.global.event.PostCreatedEvent;
+import com.back.global.event_publisher.EventPublisher;
+import com.back.shared.post.event.PostCreatedEvent;
 import com.back.shared.member.out.MemberApiClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PostWriteUseCase {
     private final EventPublisher eventPublisher;
     private final MemberApiClient memberApiClient;
 
-    public RsData<Post> write(Member author, String title, String content) {
+    public RsData<Post> write(PostMember author, String title, String content) {
         Post post = postRepository.save(new Post(author, title, content));
 
         // 게시글 작성 시, 활동 점수 +3

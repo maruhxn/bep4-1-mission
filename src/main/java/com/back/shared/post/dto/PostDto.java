@@ -1,4 +1,4 @@
-package com.back.global.dto;
+package com.back.shared.post.dto;
 
 import com.back.bounded_context.post.domain.Post;
 

@@ -1,8 +1,7 @@
 package com.back.bounded_context.post.domain;
 
-import com.back.bounded_context.member.domain.Member;
-import com.back.global.dto.PostCommentDto;
-import com.back.global.event.PostCommentCreatedEvent;
+import com.back.shared.post.dto.PostCommentDto;
+import com.back.shared.post.event.PostCommentCreatedEvent;
 import com.back.global.jpa.BaseIdAndTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -20,7 +19,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BaseIdAndTime {
     @ManyToOne(fetch = LAZY)
-    private Member author;
+    private PostMember author;
 
     private String title;
 
@@ -31,13 +30,13 @@ public class Post extends BaseIdAndTime {
     private List<PostComment> comments = new ArrayList<>();
 
 
-    public Post(Member author, String title, String content) {
+    public Post(PostMember author, String title, String content) {
         this.author = author;
         this.title = title;
         this.content = content;
     }
 
-    public PostComment addComment(Member author, String content) {
+    public PostComment addComment(PostMember author, String content) {
         PostComment postComment = new PostComment(this, author, content);
 
         comments.add(postComment);
