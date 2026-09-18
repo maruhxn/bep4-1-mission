@@ -4,6 +4,7 @@ import com.back.bounded_context.cash.domain.CashMember;
 import com.back.bounded_context.cash.domain.Wallet;
 import com.back.bounded_context.cash.out.CashMemberRepository;
 import com.back.bounded_context.cash.out.WalletRepository;
+import com.back.shared.cash.dto.CashMemberDto;
 import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,36 +17,27 @@ import java.util.Optional;
 public class CashFacade {
     private final CashMemberRepository cashMemberRepository;
     private final WalletRepository walletRepository;
+    private final CashCreateWalletUseCase cashCreateWalletUseCase;
+    private final CashSyncMemberUseCase cashSyncMemberUseCase;
+    private final CashSupport cashSupport;
 
     @Transactional
     public CashMember syncMember(MemberDto member) {
-        CashMember _member = new CashMember(
-                member.id(),
-                member.username(),
-                "",
-                member.nickname(),
-                member.activityScore(),
-                member.createDate(),
-                member.modifyDate()
-        );
-
-        return cashMemberRepository.save(_member);
+        return cashSyncMemberUseCase.syncMember(member);
     }
 
     @Transactional
-    public Wallet createWallet(CashMember holder) {
-        var wallet = new Wallet(holder);
-
-        return walletRepository.save(wallet);
+    public Wallet createWallet(CashMemberDto holder) {
+        return cashCreateWalletUseCase.createWallet(holder);
     }
 
     @Transactional(readOnly = true)
     public Optional<CashMember> findMemberByUsername(String username) {
-        return cashMemberRepository.findByUsername(username);
+        return cashSupport.findMemberByUsername(username);
     }
 
     @Transactional(readOnly = true)
     public Optional<Wallet> findWalletByHolder(CashMember holder) {
-        return walletRepository.findByHolder(holder);
+        return cashSupport.findWalletByHolder(holder);
     }
 }
