@@ -1,7 +1,6 @@
 package com.back.bounded_context.post.domain;
 
-import com.back.global.jpa.BaseIdAndTimeManual;
-import jakarta.persistence.Column;
+import com.back.shared.member.domain.ReplicaMember;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -12,14 +11,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "POST_MEMBER")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostMember extends BaseIdAndTimeManual {
+public class PostMember extends ReplicaMember {
 
-    @Column(unique = true)
-    private String username;
-
-    private String password;
-
-    private String nickname;
-
-    private int activityScore;
+    public PostMember(String username, String password, String nickname) {
+        super(username, password, nickname);
+    }
 }
