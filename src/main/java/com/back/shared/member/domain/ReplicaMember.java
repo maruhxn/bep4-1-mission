@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Source로부터 그대로 복제해야 하기 때문에 Auto Increment + Auditing 기능은 제거
+ */
 @MappedSuperclass
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,7 +22,10 @@ public abstract class ReplicaMember extends BaseMember {
 
     private LocalDateTime modifyDate;
 
-    public ReplicaMember(String username, String password, String nickname) {
+    public ReplicaMember(int id, String username, String password, String nickname, LocalDateTime createDate, LocalDateTime modifyDate) {
         super(username, password, nickname);
+        this.id = id;
+        this.createDate = createDate;
+        this.modifyDate = modifyDate;
     }
 }

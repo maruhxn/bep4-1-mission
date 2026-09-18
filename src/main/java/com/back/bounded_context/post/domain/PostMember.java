@@ -7,13 +7,15 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Table(name = "POST_MEMBER")
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostMember extends ReplicaMember {
 
-    public PostMember(String username, String password, String nickname) {
-        super(username, password, nickname);
+    public PostMember(int id, String username, String password, String nickname, LocalDateTime createDate, LocalDateTime modifyDate)  {
+        super(id, username, password, nickname, createDate, modifyDate);
     }
 }
