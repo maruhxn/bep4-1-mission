@@ -1,12 +1,15 @@
 package com.back.bounded_context.market.domain;
 
 import com.back.global.jpa.BaseIdAndTime;
+import com.back.shared.market.dto.OrderDto;
+import com.back.shared.market.event.MarketOrderPaymentRequestedEvent;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -24,6 +27,8 @@ public class Order extends BaseIdAndTime {
     private MarketMember buyer;
     private long price;
     private long salePrice;
+    private LocalDateTime requestPaymentDate;
+    private LocalDateTime paymentDate;
 
     public Order(Cart cart) {
         this.buyer = cart.getBuyer();
@@ -39,5 +44,26 @@ public class Order extends BaseIdAndTime {
 
         price += product.getPrice();
         salePrice += product.getSalePrice();
+    }
+
+    public void requestPayment(long pgPaymentAmount) {
+        this.requestPaymentDate = LocalDateTime.now();
+
+        publishEvent(new MarketOrderPaymentRequestedEvent(
+                new OrderDto(this),
+                pgPaymentAmount
+        ));
+    }
+
+    public void completePayment() {
+        paymentDate = LocalDateTime.now();
+    }
+
+    public void cancelRequestPayment() {
+        requestPaymentDate = null;
+    }
+
+    public boolean isPaid() {
+        return paymentDate != null;
     }
 }
