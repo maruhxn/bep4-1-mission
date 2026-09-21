@@ -1,6 +1,5 @@
 package com.back.shared.post.out;
 
-import com.back.bounded_context.post.domain.Post;
 import com.back.shared.post.dto.PostDto;
 import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
@@ -13,7 +12,7 @@ public class PostApiClient {
             .baseUrl("http://localhost:8080/api/v1/post")
             .build();
 
-    public List<Post> getPosts() {
+    public List<PostDto> getPosts() {
         return restClient.get()
                 .uri("/posts")
                 .retrieve()
