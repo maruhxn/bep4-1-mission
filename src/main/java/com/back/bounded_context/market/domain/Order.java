@@ -2,6 +2,7 @@ package com.back.bounded_context.market.domain;
 
 import com.back.global.jpa.BaseIdAndTime;
 import com.back.shared.market.dto.OrderDto;
+import com.back.shared.market.event.MarketOrderPaymentCompletedEvent;
 import com.back.shared.market.event.MarketOrderPaymentRequestedEvent;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -72,6 +73,8 @@ public class Order extends BaseIdAndTime {
 
     public void completePayment() {
         paymentDate = LocalDateTime.now();
+
+        publishEvent(new MarketOrderPaymentCompletedEvent(toDto()));
     }
 
     public void cancelRequestPayment() {
