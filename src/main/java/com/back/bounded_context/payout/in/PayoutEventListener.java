@@ -1,8 +1,5 @@
 package com.back.bounded_context.payout.in;
 
-import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
-import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
-
 import com.back.bounded_context.payout.app.PayoutFacade;
 import com.back.shared.market.event.MarketOrderPaymentCompletedEvent;
 import com.back.shared.member.event.MemberJoinedEvent;
@@ -12,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
+
+import static org.springframework.transaction.annotation.Propagation.REQUIRES_NEW;
+import static org.springframework.transaction.event.TransactionPhase.AFTER_COMMIT;
 
 @Component
 @RequiredArgsConstructor
@@ -30,6 +30,10 @@ public class PayoutEventListener {
         payoutFacade.syncMember(event.member());
     }
 
+    /**
+     * 회원마다 열려있는 정산서를 무조건 1개씩 만들어둔다
+     * -> 나중에 정산 항목을 담을 때 "정산서가 있으면 쓰고 없으면 만든다"는 분기가 필요 없어진다
+     */
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(PayoutMemberCreatedEvent event) {
