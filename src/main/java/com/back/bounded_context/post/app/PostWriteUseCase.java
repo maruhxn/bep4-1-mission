@@ -3,11 +3,10 @@ package com.back.bounded_context.post.app;
 import com.back.bounded_context.post.domain.Post;
 import com.back.bounded_context.post.domain.PostMember;
 import com.back.bounded_context.post.out.PostRepository;
-import com.back.shared.post.dto.PostDto;
 import com.back.global.dto.RsData;
 import com.back.global.event_publisher.EventPublisher;
-import com.back.shared.post.event.PostCreatedEvent;
 import com.back.shared.member.out.MemberApiClient;
+import com.back.shared.post.event.PostCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,7 @@ public class PostWriteUseCase {
         Post post = postRepository.save(new Post(author, title, content));
 
         // 게시글 작성 시, 활동 점수 +3
-        eventPublisher.publish(new PostCreatedEvent(new PostDto(post)));
+        eventPublisher.publish(new PostCreatedEvent(post.toDto()));
 
         String randomSecureTip = memberApiClient.getRandomSecureTip();
 

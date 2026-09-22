@@ -17,12 +17,25 @@ public class Member extends SourceMember {
         super(username, password, nickname);
     }
 
+    public MemberDto toDto() {
+        return new MemberDto(
+                getId(),
+                getCreateDate(),
+                getModifyDate(),
+                getUsername(),
+                getNickname(),
+                getActivityScore()
+        );
+    }
+
     public int increaseActivityScore(int amount) {
-        if(amount == 0) return getActivityScore();
+        if (amount == 0) {
+            return getActivityScore();
+        }
 
         setActivityScore(getActivityScore() + amount);
 
-        publishEvent(new MemberModifiedEvent(new MemberDto(this)));
+        publishEvent(new MemberModifiedEvent(toDto()));
 
         return getActivityScore();
     }

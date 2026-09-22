@@ -3,7 +3,6 @@ package com.back.bounded_context.cash.app;
 import com.back.bounded_context.cash.domain.CashMember;
 import com.back.bounded_context.cash.out.CashMemberRepository;
 import com.back.global.event_publisher.EventPublisher;
-import com.back.shared.cash.dto.CashMemberDto;
 import com.back.shared.cash.event.CashMemberCreatedEvent;
 import com.back.shared.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +32,8 @@ public class CashSyncMemberUseCase {
                 ));
 
         // syncMember()는 가입뿐 아니라 수정 이벤트로도 호출된다. 확인하지 않으면 활동점수 바뀔 때마다 지갑을 만들려고 한다.
-        if(isNew) {
-            eventPublisher.publish(new CashMemberCreatedEvent(new CashMemberDto(holder)));
+        if (isNew) {
+            eventPublisher.publish(new CashMemberCreatedEvent(holder.toDto()));
         }
 
         return holder;

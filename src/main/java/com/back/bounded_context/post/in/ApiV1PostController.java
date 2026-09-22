@@ -1,6 +1,7 @@
 package com.back.bounded_context.post.in;
 
 import com.back.bounded_context.post.app.PostFacade;
+import com.back.bounded_context.post.domain.Post;
 import com.back.shared.post.dto.PostDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class ApiV1PostController {
         return postFacade
                 .findByOrderByIdDesc()
                 .stream()
-                .map(PostDto::new)
+                .map(Post::toDto)
                 .toList();
     }
 
@@ -28,7 +29,7 @@ public class ApiV1PostController {
     public PostDto getItem(@PathVariable int id) {
         return postFacade
                 .findById(id)
-                .map(PostDto::new)
+                .map(Post::toDto)
                 .get();
     }
 }

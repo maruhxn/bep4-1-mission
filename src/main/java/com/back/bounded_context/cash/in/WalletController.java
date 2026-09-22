@@ -1,6 +1,7 @@
 package com.back.bounded_context.cash.in;
 
 import com.back.bounded_context.cash.app.CashFacade;
+import com.back.bounded_context.cash.domain.Wallet;
 import com.back.shared.cash.dto.WalletDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class WalletController {
             @PathVariable int holderId
     ) {
         return cashFacade.findWalletByHolderId(holderId)
-                .map(WalletDto::new)
+                .map(Wallet::toDto)
                 .get();
     }
 }

@@ -37,6 +37,20 @@ public class Order extends BaseIdAndTime {
         cart.getItems().forEach(item -> addItem(item.getProduct()));
     }
 
+    public OrderDto toDto() {
+        return new OrderDto(
+                getId(),
+                getCreateDate(),
+                getModifyDate(),
+                buyer.getId(),
+                buyer.getNickname(),
+                price,
+                salePrice,
+                requestPaymentDate,
+                paymentDate
+        );
+    }
+
     public void addItem(Product product) {
         OrderItem orderItem = new OrderItem(this, product, product.getName(), product.getPrice(),
                 product.getSalePrice());
@@ -51,7 +65,7 @@ public class Order extends BaseIdAndTime {
         this.requestPaymentDate = LocalDateTime.now();
 
         publishEvent(new MarketOrderPaymentRequestedEvent(
-                new OrderDto(this),
+                toDto(),
                 pgPaymentAmount
         ));
     }

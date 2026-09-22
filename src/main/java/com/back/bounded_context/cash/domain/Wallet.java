@@ -2,30 +2,44 @@ package com.back.bounded_context.cash.domain;
 
 import com.back.global.jpa.BaseEntity;
 import com.back.global.jpa.BaseManualIdAndTime;
-import jakarta.persistence.*;
+import com.back.shared.cash.dto.WalletDto;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
 @Table(name = "CASH_WALLET")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Wallet extends BaseManualIdAndTime {
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<CashLog> cashLogs = new ArrayList<>();
     @ManyToOne(fetch = FetchType.LAZY)
     private CashMember holder;
-
     private long balance;
-
-    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CashLog> cashLogs = new ArrayList<>();
 
     public Wallet(CashMember holder) {
         super(holder.getId());
         this.holder = holder;
+    }
+
+    public WalletDto toDto() {
+        return new WalletDto(
+                getId(),
+                getCreateDate(),
+                getModifyDate(),
+                holder.getId(),
+                holder.getUsername(),
+                balance
+        );
     }
 
     // ========================================================
