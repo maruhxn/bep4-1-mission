@@ -38,6 +38,6 @@ public class CashEventListener {
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void handle(MarketOrderPaymentRequestedEvent event) {
-        cashFacade.handle(event);
+        cashFacade.completeOrderPayment(event.order(), event.pgPaymentAmount());
     }
 }

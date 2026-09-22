@@ -2,7 +2,6 @@ package com.back.bounded_context.market.app;
 
 import com.back.bounded_context.market.domain.Order;
 import com.back.bounded_context.market.out.OrderRepository;
-import com.back.shared.cash.event.CashOrderPaymentSucceededEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,8 +10,8 @@ import org.springframework.stereotype.Service;
 public class MarketCompleteOrderPaymentUseCase {
     private final OrderRepository orderRepository;
 
-    public void handle(CashOrderPaymentSucceededEvent event) {
-        Order order = orderRepository.findById(event.order().id()).orElseThrow();
+    public void completePayment(int orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow();
 
         order.completePayment();
     }
