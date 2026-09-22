@@ -2,15 +2,19 @@ package com.back.bounded_context.market.in;
 
 import com.back.bounded_context.market.app.MarketFacade;
 import com.back.bounded_context.market.domain.Order;
+import com.back.bounded_context.market.domain.OrderItem;
 import com.back.bounded_context.market.in.dto.ConfirmPaymentByTossPaymentsReqBody;
 import com.back.global.dto.RsData;
 import com.back.global.exception.DomainException;
 import com.back.shared.cash.out.CashApiClient;
+import com.back.shared.market.dto.OrderItemDto;
 import com.back.shared.market.out.TossPaymentsService;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,5 +81,15 @@ public class OrderController {
         if (order.getId() != Integer.parseInt(reqBody.orderId().split("-", 3)[1])) {
             throw new DomainException("400-5", "주문번호가 일치하지 않습니다.");
         }
+    }
+
+    @GetMapping("/{id}/items")
+    @Transactional(readOnly = true)
+    public List<OrderItemDto> getItems(@PathVariable int id) {
+        Order order = marketFacade.findOrderById(id).get();
+        return order.getItems()
+                .stream()
+                .map(OrderItem::toDto)
+                .toList();
     }
 }

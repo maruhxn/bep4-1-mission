@@ -10,6 +10,9 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import lombok.NoArgsConstructor;
 
+/**
+ * 정산 항목
+ */
 @Entity
 @Table(name = "PAYOUT_PAYOUT_ITEM")
 @NoArgsConstructor

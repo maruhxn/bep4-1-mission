@@ -14,6 +14,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+/**
+ * 정산서
+ */
 @Getter
 @Table(name = "PAYOUT_PAYOUT")
 @Entity
