@@ -25,6 +25,9 @@ spring:
         highlight_sql: true
         use_sql_comments: true
         default_batch_fetch_size: 100
+  batch:
+    job:
+      enabled: false # 기본값은 앱이 뜰 때 등록된 잡을 전부 실행한다. 원하는 시점에만 실행하기 위해 끈다.
 logging:
   level:
     com.back: DEBUG
