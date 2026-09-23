@@ -4,6 +4,7 @@ import com.back.bounded_context.payout.app.PayoutFacade;
 import com.back.shared.market.event.MarketOrderPaymentCompletedEvent;
 import com.back.shared.member.event.MemberJoinedEvent;
 import com.back.shared.member.event.MemberModifiedEvent;
+import com.back.shared.payout.event.PayoutCompletedEvent;
 import com.back.shared.payout.event.PayoutMemberCreatedEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -37,12 +38,22 @@ public class PayoutEventListener {
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(PayoutMemberCreatedEvent event) {
-        payoutFacade.createPayout(event.member());
+        payoutFacade.createPayout(event.member().id());
     }
 
     @TransactionalEventListener(phase = AFTER_COMMIT)
     @Transactional(propagation = REQUIRES_NEW)
     public void handle(MarketOrderPaymentCompletedEvent event) {
         payoutFacade.addPayoutCandidateItems(event.order());
+    }
+
+    /**
+     * 정산 완료되었으면, 그 수령인의 새 정산서를 만든다
+     * = "수령인마다 열려 있는 정산서가 항상 1개" 규칙 만족
+     */
+    @TransactionalEventListener(phase = AFTER_COMMIT)
+    @Transactional(propagation = REQUIRES_NEW)
+    public void handle(PayoutCompletedEvent event) {
+        payoutFacade.createPayout(event.payout().payeeId());
     }
 }
