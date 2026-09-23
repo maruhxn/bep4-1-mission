@@ -15,18 +15,20 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class PayoutCollectItemsBatchJobConfig {
+public class PayoutCollectItemsAndCompletePayoutsBatchJobConfig {
     private static final int CHUNK_SIZE = 10;
 
     private final PayoutFacade payoutFacade;
 
     @Bean
-    public Job payoutCollectItemsJob(
+    public Job payoutCollectItemsAndCompletePayoutsJob(
             JobRepository jobRepository,
-            Step payoutCollectItemsStep
+            Step payoutCollectItemsStep,
+            Step payoutCompletePayoutsStep
     ) {
         return new JobBuilder("payoutCollectItemsJob", jobRepository)
                 .start(payoutCollectItemsStep)
+                .next(payoutCompletePayoutsStep)
                 .build();
     }
 
@@ -35,6 +37,23 @@ public class PayoutCollectItemsBatchJobConfig {
         return new StepBuilder("payoutCollectItemsStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
                     int processedCount = payoutFacade.collectPayoutItemsMore(CHUNK_SIZE).data();
+
+                    if (processedCount == 0) {
+                        return RepeatStatus.FINISHED;
+                    }
+
+                    contribution.incrementWriteCount(processedCount);
+
+                    return RepeatStatus.CONTINUABLE;
+                })
+                .build();
+    }
+
+    @Bean
+    public Step payoutCompletePayoutsStep(JobRepository jobRepository) {
+        return new StepBuilder("payoutCompletePayouts", jobRepository)
+                .tasklet((contribution, chunkContext) -> {
+                    int processedCount = payoutFacade.completePayoutsMore(CHUNK_SIZE).data();
 
                     if (processedCount == 0) {
                         return RepeatStatus.FINISHED;
